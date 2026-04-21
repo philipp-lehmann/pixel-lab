@@ -9,7 +9,7 @@ import subprocess
 import os
 import sys
 
-ROMS_DIR = os.path.join(os.path.dirname(__file__), "roms")
+ROMS_DIR = os.path.join(os.path.dirname(__file__), "snes")
 CORE = "/usr/lib/aarch64-linux-gnu/libretro/snes9x_libretro.so"
 EXTENSIONS = (".sfc", ".smc", ".zip")
 
