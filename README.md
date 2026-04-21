@@ -14,35 +14,37 @@ A minimal terminal ROM launcher for SNES games, built with Python and curses.
 
 ```bash
 sudo apt install git -y
-git clone https://github.com/YOUR/repo.git ~/pixel-lab
+git clone https://github.com/philipp-lehmann/pixel-lab.git ~/pixel-lab
 ```
 
-### 2. Install RetroArch
+### 2. Install RetroArch and the snes9x core
 
 ```bash
-sudo apt install retroarch -y
+sudo apt install retroarch libretro-snes9x -y
 ```
 
-### 3. Find the SNES core path
+### 3. Set the core path in `snes.py`
+
+The `CORE` constant at the top of `snes.py` must point to the snes9x libretro core. The path differs by board:
+
+| Board | Architecture | Core path |
+|-------|-------------|-----------|
+| Raspberry Pi 3 | aarch64 | `/usr/lib/aarch64-linux-gnu/libretro/snes9x_libretro.so` |
+| Raspberry Pi Zero v1.3 | ARMv6 32-bit | `/usr/lib/arm-linux-gnueabihf/libretro/snes9x_libretro.so` |
+
+If unsure, find it with:
 
 ```bash
 find /usr -name "*snes*libretro*" 2>/dev/null
-find /opt -name "*snes*libretro*" 2>/dev/null
 ```
 
-### 4. Update the core path in `snes.py`
-
-Set `CORE` at the top of `snes.py` to match the path found above.
-
-> **Note:** The Raspberry Pi Zero v1.3 is ARMv6 32-bit — the core path will use `arm-linux-gnueabihf` instead of `aarch64-linux-gnu`.
-
-### 5. Add ROMs
+### 4. Add ROMs
 
 ```bash
-scp roms/*.sfc user@<ZERO_IP>:~/pixel-lab/roms/
+scp roms/*.sfc user@<PI_IP>:~/pixel-lab/roms/
 ```
 
-### 6. Run
+### 5. Run
 
 ```bash
 cd ~/pixel-lab
