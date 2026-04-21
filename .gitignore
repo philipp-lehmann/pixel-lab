@@ -5,3 +5,8 @@
 ._*
 
 /roms
+
+# ROMs
+/snes/*.sfc
+/snes/*.smc
+/snes/*.zip
