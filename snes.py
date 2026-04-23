@@ -10,7 +10,7 @@ import os
 import sys
 
 ROMS_DIR = os.path.join(os.path.dirname(__file__), "snes")
-CORE = "/usr/lib/aarch64-linux-gnu/libretro/snes9x_libretro.so"
+CORE = "/opt/retropie/libretrocores/lr-snes9x/snes9x_libretro.so"
 EXTENSIONS = (".sfc", ".smc", ".zip")
 
 
@@ -57,7 +57,7 @@ def draw(stdscr, roms, selected):
             stdscr.attroff(curses.color_pair(3))
 
     # Footer
-    footer = " ↑↓ Navigate   Enter Launch   Q Quit "
+    footer = " ↑↓ Navigate   Enter Launch   C Config   Q Quit "
     stdscr.attron(curses.color_pair(1))
     stdscr.addstr(h - 2, max(0, (w - len(footer)) // 2), footer[:w])
     stdscr.attroff(curses.color_pair(1))
@@ -68,6 +68,10 @@ def draw(stdscr, roms, selected):
 def launch(rom):
     path = os.path.join(ROMS_DIR, rom)
     subprocess.run(["retroarch", "--fullscreen", "-L", CORE, path])
+
+
+def controller_config():
+    subprocess.run(["retroarch", "--menu", "--fullscreen"])
 
 
 def main(stdscr):
@@ -102,6 +106,11 @@ def main(stdscr):
             curses.endwin()
             launch(roms[selected])
             curses.wrapper(main)  # reopen picker after game exits
+            return
+        elif key in (ord('c'), ord('C')):
+            curses.endwin()
+            controller_config()
+            curses.wrapper(main)  # reopen picker after config closes
             return
         elif key in (ord('q'), ord('Q')):
             break
